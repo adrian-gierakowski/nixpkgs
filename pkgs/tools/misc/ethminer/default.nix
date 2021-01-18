@@ -36,6 +36,7 @@ stdenv.mkDerivation rec {
     "-DAPICORE=ON"
     "-DETHDBUS=OFF"
     "-DCMAKE_BUILD_TYPE=Release"
+    "-DCUDA_PROPAGATE_HOST_FLAGS=off"
   ];
 
   nativeBuildInputs = [
