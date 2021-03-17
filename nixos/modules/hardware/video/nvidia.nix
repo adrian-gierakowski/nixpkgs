@@ -161,6 +161,23 @@ in
       '';
       example = "config.boot.kernelPackages.nvidiaPackages.legacy340";
     };
+
+    hardware.nvidia.deviceSection = mkOption {
+      default = "";
+      type = types.lines;
+      description = ''
+        Extra configuration to put in xorg.cong Device section.
+        See examples at: https://download.nvidia.com/XFree86/Linux-x86_64/460.56/README/xconfigoptions.html
+        NOTE: the version of the driver used on your system will most likely be
+        different then in the above url. You can search for your driver version
+        at: https://download.nvidia.com/XFree86/Linux-x86_64.
+      '';
+      example = ''
+        Option "Coolbits" "8"
+        Option "ColorSpace" "YCbCr444"
+      '';
+    };
+
   };
 
   config = let
@@ -232,12 +249,12 @@ in
       name = "nvidia";
       modules = [ nvidia_x11.bin ];
       display = !offloadCfg.enable;
-      deviceSection = optionalString primeEnabled
+      deviceSection = cfg.deviceSection + (optionalString primeEnabled
         ''
           BusID "${pCfg.nvidiaBusId}"
           ${optionalString syncCfg.allowExternalGpu "Option \"AllowExternalGpus\""}
           ${optionalString cfg.powerManagement.finegrained "Option \"NVreg_DynamicPowerManagement=0x02\""}
-        '';
+        '');
       screenSection =
         ''
           Option "RandRRotation" "on"
