@@ -178,6 +178,22 @@ in
       '';
     };
 
+    hardware.nvidia.screenSection = mkOption {
+      default = "";
+      type = types.lines;
+      description = ''
+        Extra configuration to put in xorg.cong Screen section.
+        See examples at: https://download.nvidia.com/XFree86/Linux-x86_64/460.56/README/xconfigoptions.html
+        NOTE: the version of the driver used on your system will most likely be
+        different then in the above url. You can search for your driver version
+        at: https://download.nvidia.com/XFree86/Linux-x86_64.
+      '';
+      example = ''
+        Option "Coolbits" "8"
+        Option "ColorSpace" "YCbCr444"
+      '';
+    };
+
   };
 
   config = let
@@ -259,6 +275,7 @@ in
         ''
           Option "RandRRotation" "on"
           ${optionalString syncCfg.enable "Option \"AllowEmptyInitialConfiguration\""}
+          ${cfg.screenSection}
         '';
     };
 
