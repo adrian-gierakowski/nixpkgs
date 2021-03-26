@@ -5,11 +5,11 @@
 
 buildPythonPackage rec {
   pname = "flake8";
-  version = "3.8.4";
+  version = "3.9.0";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "aadae8761ec651813c24be05c6f7b4680857ef6afaae4651a4eccaef97ce6c3b";
+    sha256 = "1w65iyjnrwipv4dbcqxh725ri7mdx01d6pjyggd97c0j5cvkx1vq";
   };
 
   checkInputs = [ pytest mock pytestrunner ];
